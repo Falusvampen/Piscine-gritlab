@@ -1,0 +1,10 @@
+package piscine
+
+import "github.com/01-edu/z01"
+
+func skrivut(s string) {
+	strang = []rune(s)
+	for loop := 0; loop < len(s); loop++ {
+		z01.PrintRune(rune(strang[loop]))
+	}
+}

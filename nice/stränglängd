@@ -1,0 +1,11 @@
+package piscine
+
+import "github.com/01-edu/z01"
+
+func stranglang(s string) int {
+	for loop := 0; loop < len(s); loop++ {
+	}
+	if loop == len(s) {
+		return loop
+	}
+}

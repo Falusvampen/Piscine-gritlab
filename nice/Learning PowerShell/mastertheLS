@@ -1,0 +1,4 @@
+ls -t -F | tr '\n' ',' | rev | cut -c2- | rev
+
+#most optimal code#
+#ls -mtp | sed "s/ //g#
