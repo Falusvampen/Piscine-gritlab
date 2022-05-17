@@ -1,0 +1,486 @@
+Go commands for terminal opened in target folder:
+go version - check version
+go help - list of commands
+go mod tidy - find packages for module, if "import" from url etc
+go mod init example.com/hello - create module, dependency tracking
+go run ./helloworld.go - run file, tested, from w3schools
+go run . - run file , from official go tutorial
+go build ./helloworld.go - make executable(exe) for OS
+./helloworld - run executable
+
+go list -f '{{.Target}}' - discovering install path(offdocs) for exe
+go install - to install app/exe to system, but first need PATH conf.
+
+
+https://go.dev/doc/tutorial/add-a-test
+Go's has built-in support for unit "testing"(package),
+with the "go test" command.
+https://pkg.go.dev/cmd/go#hdr-Test_packages
+
+File with "_test.go" suffix tells the go test command that this file contains test functions.
+
+
+The left curly bracket "{" cannot come at the start of a line.
+Good
+func main() { fmt.Println("Hello World!") }
+Bad
+func main()
+{ fmt.Println("Hello World!")}
+
+
+Not recommended code styling, difficult to read:
+package main; import ("fmt"); func main() { fmt.Println("Hello World!");}
+
+
+In Go, a name is exported if it begins with a capital letter, f.e.: math.Pi
+When importing a package, you can refer only to its exported names.
+
+
+Comments.
+- single-line //comment
+- multiline /* multicomment */
+
+
+Variables.
+int float32 string bool
+
+Declairing.
+- var variablename type = value
+You always have to specify either "type" or "value" (or both).
+or
+- variablename := value
+in this case type inferred from value by compiler decision
+It is not possible to declare a variable using :=,
+without assigning a value to it.
+
+In Go, all variables are initialized.
+So, if you declare a variable without an initial value,
+its value will be set to the default value of its type.
+
+var - can be used inside and outside of functions
+:= - only inside functions + value is required(so type not needed)
+
+mulideclaration in one line
+var a, b, c, d int = 1, 3, 5, 7
+If the "type" keyword is not specified,
+you can declare different types of variables in the same line.
+
+package main
+import ("fmt")
+
+func main() {
+  var a, b = 6, "Hello"
+  c, d := 7, "World!"
+
+  fmt.Println(a)
+  fmt.Println(b)
+  fmt.Println(c)
+  fmt.Println(d)
+}
+
+
+Go Variable Declaration in a Block
+
+var (
+    a int
+    b int = 1
+    c string = "hello"
+   )
+
+
+There is no limit on the length of the variable name.
+a-Z 0-9 _ is available. Name must NOT be stated from 0-9.
+
+
+Go Constants.
+const CONSTNAME type = value // value must be
+const x = 1 // read-only
+
+- constant names are usually written in uppercase letters
+(for easy identification and differentiation from variables)
+- constants can be declared both inside and outside of a function
+- constants cannot be declared using the ":=" syntax.
+
+Constant multideclaration
+
+const (
+  A int = 1
+  B = 3.14
+  C = "Hi!"
+)
+
+
+Go Output Functions
+Print() Println() Printf() -> inline newline(+space between args) format
+
+Example:
+fmt.Print(i, "\n") // for line break
+
+var i,j string = "Hello","World"
+fmt.Print(i, " ", j) // few values "space" separated
+if printed is numbers , but not strings, "space" will be auto added.
+
+fmt.Println(i, j) //no need "space", it will be auto added
+
+
+fmt.Printf("i has value: %v and type: %T\n", i, i) // i i for v T
+
+Formatting Verbs
+%v - Prints the value in the default format
+%#v - Prints the value in Go-syntax format
+%T - Prints the type of the value
+%% - Prints the % sign
+
+Integer Formatting Verbs
+%b (2) %d (10) %+d (+show sign) %o (8) %O (0o8)
+%x (16 lowercase) %X (16 uppercase) %#x (16 leading 0x)
+%4d (4 spaces before) %-4d (4 spaces after)
+%04d (4 zeros before)
+
+String Formatting Verbs
+%s (plain string) %q (double-quoted string)
+%8s (8 space before) %-8s (8 space after)
+%x (hex dump of byte values) % x (hex dump with spaces)
+
+Float Formatting Verbs
+%e ('e' as exponent) %f (decimal point)
+%.2f (default width, precision 2) %6.2f (width 6, precision 2)
+%g (exponent as needed, only necessary digits)
+
+
+Go Data Types - bool(true, false), string, int, uint, float, complex.
+Data type is an important concept in programming.
+Data type specifies the size and type of variable values.
+
+Go is statically typed, meaning that once a variable type is defined,
+it can only store data of that type.
+
+"int" is default type for "int" and "uint". "int64" is default for x64.
+var x uint = 1 - unsigned int, only not negative values(or error)
+
+Available:
+int(default) int8 int16 int32 int64
+uint uint8 uint16 uint32 uint64
+float32 float64(default)
+
+
+var x float32 = 3.4e+39
+Result:
+./prog.go:5:7: constant 3.4e+39 overflows float32
+
+String values must be surrounded by DOUBLE QUOTES
+
+
+Go Arrays - multiple values of the same type
+
+var arr1 = [3]int{1,2,3} // [3] is array length
+arr2 := [5]int{4,5,6,7,8}
+
+var arr1 = [...]int{1,2,3} // inferred length
+arr2 := [...]int{4,5,6,7,8}
+
+Use/change array
+arr1[0]
+arr1[0] = 50
+len(arr1) -> 3
+
+ARRAY INITIALIZATION
+
+arr1 := [5]int{} //not initialized -> [0 0 0 0 0]
+arr2 := [5]int{1,2} //partially initialized -> [1 2 0 0 0]
+arr3 := [5]int{1,2,3,4,5} //fully initialized -> [1 2 3 4 5]
+arr4 := [5]int{1:10,2:40} //specific -> [0 10 40 0 0]
+
+
+SLICE - not store values, it just discribe section of sliced array
+
+myslice := []int -> length 0 capacity 0
+myslice := []int{1,2,3} -> length 3 capacity 3
+myslice := make([]int, 5) -> from make([]type, length, capacity)
+myslice := arr1[start:end] -> from array
+defaults "start" and/or "end" can be omitted. For array "var a [10]int"
+next all slices is same a[0:10] a[:10] a[0:] a[:]
+
+The zero value of a slice is nil.
+"var s []int" -> len 0, cap 0, s nil
+
+
+
+len(myslice) - returns the length of the slice
+cap(myslice) - returns the capacity of the slice
+
+Use/change slice.
+
+.append() at the end of slice
+myslice1 = append(myslice1, 20, 21)
+slice3 := append(slice1, slice2...) //"..." is mandatory to append slice
+
+
+Memory Effeciency
+numbers := []int{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
+// Create copy with only needed numbers
+neededNumbers := numbers[:len(numbers)-10]
+numbersCopy := make([]int, len(neededNumbers))
+copy(numbersCopy, neededNumbers)
+
+Slice literals. Go offdocs: https://go.dev/tour/moretypes/9
+s :=[]bool{true, true, false} - like array but without length
+var s = []struct { i int b bool }{ {2, true}, {3, false} }
+
+
+Go OPERATORS
+bitwise
+& -> 1 if both bits is 1
+| -> 1 if at least one bit is 1
+^ -> 1 if only one bit from both is 1
+<< -> shift left and add zeros on right
+>> -> shift right and copy most left, and remove most right
+
+conditions
+
+Logical AND &&
+Logical OR ||
+Logical NOT !
+
+
+Go "if - else if - else" statement
+if time < 10 { //code } else if time < 20 { } else { //optional }
+Statements can be in brackets "(...)" "(time<10)"
+
+Declaration inside if before statement available using ":="
+if v := math.Pow(x, n); v < lim {
+ return v //visible only inside if - else if - else
+}
+return lim
+
+
+Go "switch" Statement
+switch expression {
+case 5,x,y:
+  // code block
+case z:
+  // code block
+default:
+  // optional code block if no any case match
+}
+
+All the case values should have the same type as the switch
+expression, or error.
+The "case" each value can be in "( )".
+F.e. "case (3+1), 0 :". The "case 3+1, 0:" also work.
+
+Declaration inside switch before statement available using ":="
+switch os := runtime.GOOS; os {}
+
+Go switch case fire once.
+
+
+Go For Loops
+for initValue; checkTrue; incrementInitValue { // code }
+The "initValue" "checkTrue" "incrementInitValue" statements
+can be managed outside above "for . . . {}"
+
+"continue" and "break" are usually used with conditions.
+
+for i:=1; i<=8; i++ {
+  if i==2 {continue} //2 will be skipped for printing using "continue"
+  else if i==7 {break} //8 never will fire, "break" stops "for"
+  //also 7 will not be printed, after firing "break"
+  fmt.Println(i)
+}
+
+
+The Range Keyword - for iteration of array/slice/map.
+for index, value := array|slice|map { // code }
+
+fruits := [3]string{"apple", "orange", "banana"}
+for idx, val := range fruits { fmt.Printf("%v\t%v\n", idx, val) }
+
+To only show the value or the index,
+you can omit the other output using an underscore "_".
+for _, val := range fruits {//code}
+for idx, _ := range fruits {//code}
+
+
+Go Functions
+
+
+The "defer" keyword
+https://go.dev/tour/flowcontrol/12
+func main() {
+ defer fmt.Println("world")
+
+ fmt.Println("hello")
+}
+... will print -> hello -> world, because "defer"red call's arguments are
+evaluated immediately, but the function call executed only after function returns.
+Stacked "defer"red calls are executed in last-in-first-out order. in for 1..10 defer
+print will be 10 .. 1 finally.
+
+
+func FunctionName() { // code }
+func FunctionName(p1, p2 type) { //if both params type is same}
+func FunctionName(p1 type, p2 type) { // code can use p1, p2 }
+func FunctionName(p1 type, p2 type) type { //code
+  return output //"type" is "output" type
+}
+
+
+
+
+Example:
+package main
+import ("fmt")
+
+func myFun() { fmt.Println("I just got executed!") }
+
+func main() { myFun() // call the function }
+
+
+In Go, you can name the return values of a function.
+func myFunction(x int, y int) (result int) {
+  result = x + y
+  return
+}
+
+Multiple Return Values
+func myFunction(x int, y string) (result int, txt1 string) {
+  result = x + x
+  txt1 = y + " World!"
+  return
+}
+
+func main() {
+   _, b := myFunction(5, "Hello")
+  fmt.Println(b)
+}
+The "_" used to not get the first value returned from function.
+
+Go accepts recursion functions.
+
+
+Go pointers - hold the memory address of a value.
+x, y := 1, 2
+z := &x // use "&" to generate pointer to "x" memory
+*z = 0 // now x value equals 0
+z = &y // point to "y" memory
+var a = &y //work too... to "y" memory
+*a = *a/2 //divide y using pointer
+
+...now "fmt.Println(*z)" will too equals 1= 2/2, because one memory
+"fmt.Println(z)" returns memory adress in hexadecimal style 0x...
+
+After creation the pointer type can not be changed from int to string,
+but in playground the type float 55.0 to int 25 work done,
+with auto convertion.
+But in same time point to 55.01 (float) then point to 25 (int) error.
+
+"struct" fields can be accessed through a struct pointer.
+Pointers can be used to manage "struct".
+With "struct" case the "*" of pointer have two forms.
+(*p).X or p.X, both work.
+
+
+
+Go Structures.
+type struct_name struct {
+  member1 datatype;
+  member2 datatype;
+}
+
+Struct can also be sent to a function as parameter
+
+Example:
+package main
+import ("fmt")
+
+type Person struct {
+  name string
+  age int
+}
+
+func main() {
+  var pers1 Person
+  var pers2 = Person("per2name", 1)
+  var pers3 = Person{name:"per3name"} // age auto 0
+  mp := pers1
+  pers1.name = "Hege"
+  printPerson(pers1)
+  mp.name = "Hege1" //prefered syntax
+  (*mp).name = "Hege2" //syntax work too
+}
+
+func printPerson(pers Person) { fmt.Println("Name: ", pers.name) }
+
+
+Go Maps - a key-value pairs.
+The order of the "map" elements defined in the code is different
+from the way that they are stored.
+To iterating with order use []string as mapKey holder.
+
+If two map variables refer to the same hash table, changing
+the content of one variable affect the content of the other.
+
+- create using "map"
+var a = map[KeyType]ValueType{key1:value1, key2:value2,...}
+b := map[KeyType]ValueType{key1:value1, key2:value2,...}
+
+- create using "make"
+var a = make(map[KeyType]ValueType) //empty map, error compiler
+b := make(map[KeyType]ValueType) //empty map, error compiler
+
+The "make()" is the right way to create an empty map.
+
+Example:
+a := map[string]int{"Oslo": 1, "Bergen": 2}
+
+b := make(map[string]int) //empty map, must be used later
+b["Oslo"] = 1 // now map used, no error of compiler
+
+
+Allowed Key Types: Booleans Numbers Strings Arrays
+Pointers Structs Interfaces (as long as the dynamic type
+supports equality)
+
+Allowed Value Types: any type
+
+Accessing Map Elements:
+value = map_name[key] //read
+map_name[key] = value //write/update example above
+delete(map_name, key) //delete
+Checking:
+mapVal, mapKey :=map_name[key] // check value and key in map
+_, mapKey :=map_name[key] // check only key in map
+
+for k, v := range mymap { fmt.Printf("%v : %v, ", k, v) } //iterating
+
+
+Go UNIT TESTING (fragment without full code) example:
+package greetings
+
+import (
+    "testing"
+    "regexp"
+)
+
+// TestHelloName calls greetings.Hello with a name, checking
+// for a valid return value.
+func TestHelloName(t *testing.T) {
+    name := "Gladys"
+    want := regexp.MustCompile(`\b`+name+`\b`)
+    msg, err := Hello("Gladys")
+    if !want.MatchString(msg) || err != nil {
+        t.Fatalf(`Hello("Gladys") = %q, %v, want match for %#q, nil`, msg, err, want)
+    }
+}
+
+// TestHelloEmpty calls greetings.Hello with an empty string,
+// checking for an error.
+func TestHelloEmpty(t *testing.T) {
+    msg, err := Hello("")
+    if msg != "" || err == nil {
+        t.Fatalf(`Hello("") = %q, %v, want "", error`, msg, err)
+    }
+}
+
+
