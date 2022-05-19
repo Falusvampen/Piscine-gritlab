@@ -1,0 +1,15 @@
+package piscine
+
+func IsLower(s string) bool {
+	runes := []rune(s)
+	count := 0
+	for i := range runes {
+		if runes[i] >= 'a' && runes[i] <= 'z' {
+			count++
+		}
+		if count == len(runes) {
+			return true
+		}
+	}
+	return false
+}
