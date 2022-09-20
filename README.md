@@ -1,5 +1,5 @@
 # Grit-lab
-My repository at grit:lab while studying at the piscine
-this contains all my code needed to complete the tasks.
+My repository during the first piscine at gritlab while attempting to get into the school.
+This contains all my code needed to complete the tasks.
 
-Grit:lab was a great experience made possible by the 01edu platform, paf and the people i studied with.
+The first piscine was a great experience made possible by the 01edu platform, paf and the people i studied with.
